@@ -7,4 +7,6 @@ router.get('/:pid', postsControllers.getPostById)
 
 router.post('/', postsControllers.createPost)
 
+router.delete('/:pid', postsControllers.deletePost)
+
 module.exports = router

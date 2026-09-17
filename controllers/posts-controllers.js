@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid')
 
-const posts = [
+let posts = [
     {
         id: 'p1',
         title: 'Title',
@@ -28,5 +28,14 @@ const createPost = (req, res, next) => {
     res.status(201).json({ post: createdPost })
 }
 
+const deletePost = (req, res, next) => {
+    const postId = req.params.pid
+
+    posts = posts.filter((item) => item.id !== postId)
+
+    res.status(200).json({ message: 'Post Deleted.' })
+}
+
 exports.getPostById = getPostById
 exports.createPost = createPost
+exports.deletePost = deletePost
