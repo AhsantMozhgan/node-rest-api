@@ -3,14 +3,12 @@ const { validationResult } = require('express-validator')
 
 const Post = require('../models/posts')
 
-const getPostById = (req, res, next) => {
-    // const postId = req.params.pid
+const getPostById = async (req, res, next) => {
+    const postId = req.params.pid
 
-    // const post = posts.find((item) => {
-    //     return item.id === postId
-    // })
+    const post = await Post.findById(postId)
 
-    // res.json({ post })
+    res.json({ post })
 }
 
 const createPost = async (req, res, next) => {
@@ -32,12 +30,13 @@ const createPost = async (req, res, next) => {
     res.status(201).json({ post: createdPost })
 }
 
-const deletePost = (req, res, next) => {
-    // const postId = req.params.pid
+const deletePost = async (req, res, next) => {
+    const postId = req.params.pid
 
-    // posts.filter((item) => item.id !== postId)
+    // await post.remove() // Documents no longer have .remove() the way older tutorials show
+    await Post.findByIdAndDelete(postId)
 
-    // res.status(200).json({ message: 'Post Deleted.' })
+    res.status(200).json({ message: 'Post Deleted.' })
 }
 
 exports.getPostById = getPostById
