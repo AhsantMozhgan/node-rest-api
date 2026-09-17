@@ -1,24 +1,8 @@
 const express = require('express')
 
 const router = express.Router()
+const postsControllers = require('../controllers/posts-controllers')
 
-const posts = [
-    {
-        id: 'p1',
-        title: 'Title',
-        content: 'Content',
-    },
-]
-
-router.get('/:pid', (req, res, next) => {
-    const postId = req.params.pid
-
-    const post = posts.find((item) => {
-        return item.id === postId
-    })
-    // res.json( {post: post} )
-    //OR 
-    res.json({ post })
-})
+router.get('/:pid', postsControllers.getPostById)
 
 module.exports = router
