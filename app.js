@@ -4,6 +4,6 @@ const postsRoutes = require('./routes/posts-routes')
 
 const app = express()
 
-app.use(postsRoutes)
+app.use('/api/posts', postsRoutes)
 
 app.listen(5000)
