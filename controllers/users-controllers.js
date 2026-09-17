@@ -1,4 +1,6 @@
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
 const User = require('../models/users')
 
 const getUsers = async (req, res, next) => {
@@ -15,7 +17,9 @@ const signup = async (req, res, next) => {
 
     await newUser.save()
 
-    res.status(201).json({ user: newUser })
+    const token = jwt.sign({ email: newUser.email }, 'secret_key')
+
+    res.status(201).json({ user: newUser, token })
 }
 
 const login = async (req, res, next) => {
@@ -24,16 +28,18 @@ const login = async (req, res, next) => {
     const validUser = await User.findOne({ email: email })
 
     if (!validUser) {
-        return res.json({ message: 'User is not valid.' })
+        res.json({ message: 'User is not valid.' })
     }
 
     const validPassword = await bcrypt.compare(password, validUser.password)
 
     if (!validPassword) {
-        return res.json({ message: 'Password is not valid.' })
+        res.json({ message: 'Password is not valid.' })
     }
 
-    res.json({ message: 'Logged in.' })
+    const token = jwt.sign({ email: validUser.email }, 'secret_key')
+
+    res.json({ token })
 }
 
 exports.getUsers = getUsers
