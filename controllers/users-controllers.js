@@ -1,8 +1,9 @@
 const { v4: uuidv4 } = require('uuid')
 const User = require('../models/users')
 
-const getUsers = (req, res, next) => {
-    // res.json({ users })
+const getUsers = async (req, res, next) => {
+const users = await User.find()
+    res.json({ users })
 }
 
 const signup = async (req, res, next) => {
@@ -11,7 +12,6 @@ const signup = async (req, res, next) => {
     // const newUser = { id: uuidv4(), email, password }
     const newUser = new User({ email, password })
 
-   
     // users.push(newUser)
     await newUser.save()
 
@@ -20,10 +20,13 @@ const signup = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     const { email, password } = req.body
-    const validUser = users.find((item) => item.email === email)
+
+    const validUser = await User.findOne({ email: email })
+
     if (!validUser || validUser.password !== password) {
-        return res.json({ message: 'User not valid.' })
+        res.json({ message: 'User is not valid.' })
     }
+
     res.json({ message: 'Logged in.' })
 }
 
