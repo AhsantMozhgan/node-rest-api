@@ -1,13 +1,11 @@
 const express = require('express')
+const router = express.Router()
 
-const postsRoutes = require('./routes/posts-routes')
-const usersRoutes = require('./routes/users-routes')
+// const usersControllers = require('../controllers/posts-controllers') 
+const usersControllers = require('../controllers/users-controllers') 
 
-const app = express()
+router.get('/', usersControllers.getUsers)
+router.post('/signup', usersControllers.signup)
+router.post('/login', usersControllers.login)
 
-app.use(express.json())
-
-app.use('/api/posts', postsRoutes) 
-app.use('/api/users', usersRoutes)
-
-app.listen (5000)
+module.exports = router
