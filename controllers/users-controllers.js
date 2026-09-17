@@ -1,27 +1,24 @@
 const { v4: uuidv4 } = require('uuid')
+const User = require('../models/users')
 
-const users = [
-    {
-        id: 'u1',
-        email: 'sadri.masood@gmail.com',
-        password: 'test',
-    },
-]
 const getUsers = (req, res, next) => {
-    res.json({ users })
+    // res.json({ users })
 }
 
-const signup = (req, res, next) => {
+const signup = async (req, res, next) => {
     const { email, password } = req.body
 
-    const newUser = { id: uuidv4(), email, password }
+    // const newUser = { id: uuidv4(), email, password }
+    const newUser = new User({ email, password })
 
-    users.push(newUser)
+   
+    // users.push(newUser)
+    await newUser.save()
 
     res.status(201).json({ user: newUser })
 }
 
-const login = (req, res, next) => {
+const login = async (req, res, next) => {
     const { email, password } = req.body
     const validUser = users.find((item) => item.email === email)
     if (!validUser || validUser.password !== password) {
