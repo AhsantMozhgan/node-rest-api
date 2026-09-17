@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid')
+
 const posts = [
     {
         id: 'p1',
@@ -12,9 +14,19 @@ const getPostById = (req, res, next) => {
     const post = posts.find((item) => {
         return item.id === postId
     })
-    // res.json( {post: post} )
-    //OR 
+
     res.json({ post })
 }
 
+const createPost = (req, res, next) => {
+    const { title, content } = req.body
+
+    const createdPost = { id: uuidv4(), title, content }
+
+    posts.push(createdPost)
+
+    res.status(201).json({ post: createdPost })
+}
+
 exports.getPostById = getPostById
+exports.createPost = createPost
